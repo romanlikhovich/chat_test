@@ -15,6 +15,6 @@ export const LoginAction = (username, password) => {
 export const LogoutAction = () => {
     return async (dispatch) => {
         await logout()
-        dispatch({ type: LOGOUT_ACTION, payload: null });
+        dispatch({type: LOGOUT_ACTION, payload: null});
     };
 }

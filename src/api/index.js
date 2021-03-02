@@ -1,10 +1,12 @@
 import axios from "axios";
+import {ChatWebSocket} from "./chatWebSocket";
 
 const API_URL = 'http://localhost:8000';
 
 const headers = {
     'Content-Type': 'application/json',
 }
+const socketRef = new ChatWebSocket(API_URL);
 
 export const login = async (username, password) => {
     try {
@@ -36,4 +38,38 @@ export const logout = async () => {
     } catch (error) {
         console.error('Logout error', error)
     }
+}
+
+
+export const userEmit = (users) => {
+    if (users.indexOf(localStorage.getItem('fullName')) === -1) {
+        socketRef.emit('joinUser', localStorage.getItem('fullName'));
+    }
+};
+
+export const userListener = () => {
+    return new Promise(resolve => {
+        // messages and users listeners
+        socketRef.on('joinUser', ({onlineUsers, messages}) => {
+            console.log(messages);
+            resolve({users: [...onlineUsers], messages: [...messages]});
+        });
+    });
+}
+
+export const messageListener = (messages) => {
+    return new Promise(resolve => {
+        socketRef.on('sendMessage', (message) => {
+            resolve( [...messages, message]);
+        });
+    });
+}
+
+export const sendMessage = (message) => {
+    const msg = {
+        message,
+        userId: localStorage.getItem('userId'),
+        userName: localStorage.getItem('fullName')
+    }
+    socketRef.emit('sendMessage', msg);
 }

@@ -38,7 +38,6 @@ const onlineUsers = [];
 
 io.on('connection', socket => {
     socket.on('joinUser', async (fullName) => {
-        console.log(onlineUsers)
         if (onlineUsers.indexOf(fullName) === -1) {
             onlineUsers.push(fullName);
         }

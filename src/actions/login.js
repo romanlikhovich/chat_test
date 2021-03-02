@@ -7,7 +7,7 @@ export const LoginAction = (username, password) => {
             const data = await login(username, password);
             dispatch({type: LOGIN_ACTION, payload: data});
         } catch (error) {
-            dispatch({type: LOGIN_FAILED, payload: null});
+            dispatch({type: LOGIN_FAILED});
         }
     }
 }
@@ -15,6 +15,6 @@ export const LoginAction = (username, password) => {
 export const LogoutAction = () => {
     return async (dispatch) => {
         await logout()
-        dispatch({type: LOGOUT_ACTION, payload: null});
+        dispatch({type: LOGOUT_ACTION});
     };
 }

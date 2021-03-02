@@ -1,12 +1,12 @@
 import axios from "axios";
-import {ChatWebSocket} from "./chatWebSocket";
+import socketIOClient from "socket.io-client";
 
 const API_URL = 'http://localhost:8000';
 
 const headers = {
     'Content-Type': 'application/json',
 }
-const socketRef = new ChatWebSocket(API_URL);
+const socketRef = socketIOClient(API_URL);
 
 export const login = async (username, password) => {
     try {
